@@ -1,36 +1,44 @@
 <template>
   <div id="app">
-    <div v-if="!loaded" class="loading">
-    </div>
-    <div v-else-if="!results">
-      <NoResults containerId="NoResults"/>
-    </div>
-    <div v-else class="loaded">
+    <div v-if="!loaded" class="loading"></div>
+
+    <div v-else>
       <Header v-on:searchRecipe="seeSearchedRecipes" v-on:reload="reloadRecipes" :recipeName="nameRecipes"/>   
-      <div class="mainRecipe" v-if="idMeal != null">
-          <RecipePage :title_recipe="mainMeal.meal.strMeal" :picture_url="mainMeal.meal.strMealThumb" 
-          :recipe="mainMeal.meal.strInstructions.split('\n')" :ingredients="mainMeal.ingredients"
-          v-on:hideMainRecipe="seeRecipes"/>
+      
+      <div v-if="!results">
+        <NoResults containerId="NoResults"/>
       </div>
 
-      <div class="page" v-else>
-        <div class="first_column">
-          <div v-for="meal in seeFilteredMeals.slice(0,nb_of_recipes/2)" :key="meal.id">
-            <RecipeCard :title_recipe="meal.meal.strMeal" :picture_url="meal.meal.strMealThumb" 
-            v-on:updateVisibility="seeMainRecipe" :ingredients="meal.ingredients" :id="meal.meal.idMeal"/>
-          </div>
+      <div v-else class="loaded">
+        <div class="mainRecipe" v-if="idMeal != null">
+            <RecipePage :title_recipe="mainMeal.meal.strMeal" :picture_url="mainMeal.meal.strMealThumb" 
+            :recipe="mainMeal.meal.strInstructions.split('\n')" :ingredients="mainMeal.ingredients"
+            v-on:hideMainRecipe="seeRecipes"/>
         </div>
 
-        <div class="second_column">
-          <div v-for="meal in seeFilteredMeals.slice(seeFilteredMeals.length/2, seeFilteredMeals.length/2 + nb_of_recipes/2-1)" :key="meal.id">
-            <RecipeCard :title_recipe="meal.meal.strMeal" :picture_url="meal.meal.strMealThumb" 
-            v-on:updateVisibility="seeMainRecipe" :ingredients="meal.ingredients" :id="meal.meal.idMeal"/>
+        <div class="page" v-else>
+
+          <div class="first_column">
+            <div v-for="meal in seeFilteredMeals.slice(0,nb_of_recipes/2)" :key="meal.id">
+              <RecipeCard :title_recipe="meal.meal.strMeal" :picture_url="meal.meal.strMealThumb" 
+              v-on:updateVisibility="seeMainRecipe" :ingredients="meal.ingredients" :id="meal.meal.idMeal"/>
+            </div>
           </div>
-        </div>
-        <div class="more_recipes">
-          <button  :class="!more_recipes?'disallow':''" v-on:click="seeMoreRecipes">See more</button>
+
+          <div class="second_column">
+            <div v-for="meal in seeFilteredMeals.slice(seeFilteredMeals.length/2, seeFilteredMeals.length/2 + nb_of_recipes/2-1)" :key="meal.id">
+              <RecipeCard :title_recipe="meal.meal.strMeal" :picture_url="meal.meal.strMealThumb" 
+              v-on:updateVisibility="seeMainRecipe" :ingredients="meal.ingredients" :id="meal.meal.idMeal"/>
+            </div>
+          </div>
+
+          <div class="more_recipes">
+            <button  :class="!more_recipes?'disallow':''" v-on:click="seeMoreRecipes">See more</button>
+          </div>
+
         </div>
       </div>
+      
       <Footer/>
     </div>
   </div>

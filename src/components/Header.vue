@@ -1,22 +1,19 @@
 <template>
   <div class="header">
 
-      <div class="logo" @click="reloadReseach(), sendForm()">
+      <div class="logo" @click="reloadResearch(), sendForm()">
         <router-link to="/">
            <img src="@/assets/logo.png">
         </router-link>
       </div> 
 
     <div class="search-area">
-      <div class="reload" @click="reloadReseach(), sendForm()">
+      <div class="reload" @click="reloadResearch(), sendForm()">
         <router-link to="/">
           <img src="@/assets/reload.png">
         </router-link>
       </div>
       <input v-on:keyup.enter="sendForm()" type="search" class="input" v-model="search" :placeholder="latestRecipe"> 
-      <div :class="search?'show':''" @click="cleanSearch" class="remove">
-        <img src="@/assets/remove.png">
-      </div>
     </div>
 
   </div>
@@ -47,12 +44,9 @@ export default {
       window.scroll(0,0);
       this.$emit("searchRecipe", this.search)
     },
-    reloadReseach: function(){
+    reloadResearch: function(){
       this.$emit("reload");
       this.search="";
-    },
-    cleanSearch: function(){
-      this.search=""
     }
   }
 }
@@ -67,7 +61,7 @@ export default {
   align-items: center;
   /* justify-content: space-between; */
   height: 60px;
-  width: 100%;
+  width: 100vw;
   box-shadow:0px 20px 20px var(--shadow-color)
 }
 
